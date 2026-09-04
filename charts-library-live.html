@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Charts Library — Premium Stock Research &amp; Market Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-950:#080C16;
+  --navy-900:#0D1424;
+  --navy-850:#111A2E;
+  --navy-800:#16203A;
+  --navy-700:#202C48;
+  --navy-600:#2C3A5C;
+  --hairline:rgba(255,255,255,0.08);
+  --ink-050:#F6F7FB;
+  --ink-100:#E9ECF4;
+  --ink-300:#B7BFD4;
+  --ink-500:#8890A6;
+  --gold-300:#E7CD8E;
+  --gold-400:#C9A24B;
+  --gold-500:#AD8836;
+  --blue-400:#6E93EE;
+  --blue-500:#4C74D9;
+  --green-500:#3B9E70;
+  --green-bg:rgba(59,158,112,0.14);
+  --amber-500:#D6A32B;
+  --amber-bg:rgba(214,163,43,0.14);
+  --red-500:#D6685D;
+  --red-bg:rgba(214,104,93,0.14);
+  --radius-s:6px;
+  --radius-m:10px;
+  --radius-l:16px;
+  --serif:'Fraunces', Georgia, serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --maxw:1120px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--navy-950);
+  color:var(--ink-100);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+::selection{background:var(--gold-400);color:var(--navy-950);}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;}
+img{max-width:100%;display:block;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+.serif{font-family:var(--serif);}
+.muted{color:var(--ink-300);}
+.dim{color:var(--ink-500);}
+
+/* ---------- top nav ---------- */
+.topnav{
+  position:sticky;top:0;z-index:40;
+  background:rgba(8,12,22,0.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.topnav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+.brandmark{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.brandmark .mark{width:26px;height:26px;flex:0 0 auto;}
+.brandmark .name{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:0.2px;color:var(--ink-050);}
+.navlinks{display:flex;align-items:center;gap:28px;}
+.navlinks a{font-size:14px;color:var(--ink-300);cursor:pointer;}
+.navlinks a:hover{color:var(--ink-050);}
+.navcta{display:flex;gap:10px;align-items:center;}
+@media (max-width:760px){ .navlinks{display:none;} }
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 22px;border-radius:var(--radius-s);border:1px solid transparent;
+  font-size:14.5px;font-weight:600;cursor:pointer;transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(0.98);}
+.btn-gold{background:linear-gradient(180deg,var(--gold-300),var(--gold-500));color:#1B1404;}
+.btn-gold:hover{filter:brightness(1.06);}
+.btn-outline{background:transparent;border-color:var(--navy-600);color:var(--ink-100);}
+.btn-outline:hover{border-color:var(--gold-400);color:var(--gold-300);}
+.btn-ghost{background:transparent;color:var(--ink-300);padding:10px 14px;}
+.btn-ghost:hover{color:var(--ink-050);}
+.btn-danger{background:transparent;border-color:var(--red-500);color:var(--red-500);}
+.btn-danger:hover{background:var(--red-bg);}
+.btn-block{width:100%;}
+.btn-sm{padding:8px 14px;font-size:13px;}
+.btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:96px 0 84px;overflow:hidden;border-bottom:1px solid var(--hairline);}
+.hero-bg{position:absolute;inset:0;pointer-events:none;opacity:0.5;}
+.hero-inner{position:relative;max-width:700px;}
+.eyebrow{font-size:13px;color:var(--gold-300);letter-spacing:0.02em;margin-bottom:18px;}
+.hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(38px,6vw,60px);line-height:1.08;margin:0 0 20px;color:var(--ink-050);}
+.hero h1 em{font-style:italic;color:var(--gold-300);}
+.hero p.lead{font-size:17px;color:var(--ink-300);max-width:520px;margin:0 0 34px;}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap;}
+.hero .ctas .btn{padding:14px 26px;}
+
+/* ---------- sections ---------- */
+section.block{padding:80px 0;border-bottom:1px solid var(--hairline);}
+section.block.tight{padding:64px 0;}
+.section-head{max-width:600px;margin:0 0 40px;}
+.section-head h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.4vw,34px);margin:0 0 12px;color:var(--ink-050);}
+.section-head p{color:var(--ink-300);font-size:15.5px;margin:0;}
+
+/* member benefit cards */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media (max-width:900px){.grid4{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.grid4{grid-template-columns:1fr;}}
+.benefit-card{border:1px solid var(--hairline);background:var(--navy-900);border-radius:var(--radius-m);padding:26px 22px;transition:border-color .2s;}
+.benefit-card:hover{border-color:var(--navy-600);}
+.benefit-card .bicon{width:34px;height:34px;margin-bottom:16px;color:var(--gold-400);}
+.benefit-card h3{font-size:15px;margin:0 0 8px;color:var(--ink-050);letter-spacing:0.01em;}
+.benefit-card p{font-size:13.5px;color:var(--ink-500);margin:0;}
+
+/* mission timeline */
+.mission{background:var(--navy-900);border-radius:var(--radius-l);padding:52px 44px;border:1px solid var(--hairline);}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+@media (max-width:820px){.mission-grid{grid-template-columns:1fr;}}
+.mission blockquote{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.55;color:var(--ink-100);margin:0 0 22px;}
+.mission .pillar-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.pill{border:1px solid var(--navy-600);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--ink-300);}
+.timeline-svg{width:100%;height:auto;}
+.illus-note{text-align:center;font-size:12px;color:var(--ink-500);margin-top:14px;}
+
+/* approach row */
+.approach-row{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--hairline);border-radius:var(--radius-m);overflow:hidden;}
+.approach-item{flex:1 1 160px;padding:22px 20px;border-right:1px solid var(--hairline);text-align:left;}
+.approach-item:last-child{border-right:none;}
+.approach-item .num{font-family:var(--serif);font-size:13px;color:var(--gold-400);margin-bottom:8px;}
+.approach-item .label{font-size:14px;color:var(--ink-100);font-weight:600;}
+@media (max-width:760px){.approach-item{flex:1 1 50%;border-bottom:1px solid var(--hairline);}}
+
+/* pricing */
+.grid4plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+@media (max-width:960px){.grid4plans{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.grid4plans{grid-template-columns:1fr;}}
+.plan-card{position:relative;border:1px solid var(--hairline);background:var(--navy-900);border-radius:var(--radius-m);padding:28px 22px;display:flex;flex-direction:column;transition:transform .18s ease, border-color .18s ease;}
+.plan-card:hover{transform:translateY(-3px);border-color:var(--navy-600);}
+.plan-card.featured{border-color:var(--gold-500);background:linear-gradient(180deg,var(--navy-850),var(--navy-900));}
+.plan-badge{position:absolute;top:-11px;left:22px;font-size:11px;letter-spacing:0.03em;padding:4px 10px;border-radius:999px;font-weight:600;}
+.plan-badge.best{background:var(--gold-400);color:#1B1404;}
+.plan-badge.pop{background:var(--blue-500);color:#fff;}
+.plan-name{font-size:13.5px;color:var(--ink-300);margin:8px 0 14px;}
+.plan-price{font-family:var(--serif);font-size:34px;color:var(--ink-050);margin:0 0 4px;}
+.plan-price sup{font-size:16px;font-weight:500;top:-14px;position:relative;margin-right:2px;}
+.plan-save{font-size:12.5px;color:var(--green-500);margin-bottom:20px;min-height:16px;}
+.plan-card .btn{margin-top:auto;}
+
+/* how it works */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr);}}
+.step{border:1px solid var(--hairline);border-radius:var(--radius-m);padding:20px 16px;background:var(--navy-900);}
+.step .n{font-family:var(--serif);font-size:20px;color:var(--gold-400);margin-bottom:10px;}
+.step p{font-size:13px;color:var(--ink-300);margin:0;}
+
+/* disclaimer */
+.disclaimer-box{border:1px solid var(--hairline);border-left:3px solid var(--amber-500);background:var(--navy-900);border-radius:var(--radius-m);padding:22px 24px;font-size:13.5px;color:var(--ink-300);}
+.disclaimer-box strong{color:var(--ink-100);}
+
+/* faq */
+.faq-item{border-bottom:1px solid var(--hairline);padding:18px 0;cursor:pointer;}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--ink-050);font-weight:500;}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;font-size:13.5px;color:var(--ink-300);}
+.faq-item.open .faq-a{max-height:220px;padding-top:12px;}
+.faq-item .chev{transition:transform .2s;color:var(--ink-500);}
+.faq-item.open .chev{transform:rotate(45deg);}
+
+/* final cta */
+.finalcta{text-align:center;padding:90px 0;background:radial-gradient(ellipse at 50% 0%, rgba(201,162,75,0.09), transparent 60%);}
+.finalcta h2{font-family:var(--serif);font-size:clamp(28px,4vw,40px);margin:0 0 16px;color:var(--ink-050);}
+.finalcta p{color:var(--ink-300);margin:0 0 30px;}
+
+/* footer */
+footer{padding:44px 0;}
+.footer-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--ink-500);}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;}
+.footer-links a{cursor:pointer;color:var(--ink-500);}
+.footer-links a:hover{color:var(--ink-100);}
+
+/* ---------- generic form page ---------- */
+.formpage{padding:56px 0 90px;min-height:70vh;}
+.formcol{max-width:520px;margin:0 auto;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink-500);cursor:pointer;margin-bottom:28px;}
+.back-link:hover{color:var(--ink-100);}
+.form-card{border:1px solid var(--hairline);background:var(--navy-900);border-radius:var(--radius-l);padding:36px 32px;}
+.form-card h2{font-family:var(--serif);font-size:24px;margin:0 0 6px;color:var(--ink-050);}
+.form-card .sub{font-size:13.5px;color:var(--ink-500);margin:0 0 28px;}
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:13px;color:var(--ink-300);margin-bottom:7px;}
+.field input, .field select, .field textarea{
+  width:100%;background:var(--navy-850);border:1px solid var(--navy-600);color:var(--ink-050);
+  border-radius:var(--radius-s);padding:12px 14px;font-size:14.5px;font-family:inherit;
+}
+.field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--gold-400);}
+.field .err{font-size:12px;color:var(--red-500);margin-top:6px;display:none;}
+.field.invalid input, .field.invalid select{border-color:var(--red-500);}
+.field.invalid .err{display:block;}
+.field .hint{font-size:12px;color:var(--ink-500);margin-top:6px;}
+.upload-box{border:1.5px dashed var(--navy-600);border-radius:var(--radius-m);padding:22px;text-align:center;cursor:pointer;transition:border-color .2s;}
+.upload-box:hover{border-color:var(--gold-400);}
+.upload-box.has-file{border-style:solid;border-color:var(--green-500);}
+.upload-preview{max-height:180px;border-radius:var(--radius-s);margin-top:12px;overflow:hidden;}
+.upload-preview img{width:100%;object-fit:contain;max-height:180px;background:var(--navy-950);}
+
+/* summary row inside payment page */
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;font-size:14px;}
+.summary-row.total{border-top:1px solid var(--hairline);margin-top:6px;padding-top:16px;font-size:16px;color:var(--ink-050);font-weight:600;}
+.qr-box{background:#fff;border-radius:var(--radius-m);padding:18px;display:flex;justify-content:center;margin:18px 0;}
+.upi-id-row{display:flex;align-items:center;justify-content:space-between;background:var(--navy-850);border:1px solid var(--navy-600);border-radius:var(--radius-s);padding:12px 16px;margin-bottom:18px;}
+.upi-id-row code{font-size:14px;color:var(--gold-300);}
+.copy-btn{font-size:12px;color:var(--blue-400);cursor:pointer;}
+.instr-list{margin:0;padding-left:18px;color:var(--ink-300);font-size:13.5px;line-height:1.9;}
+
+/* status badges */
+.status-badge{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:999px;}
+.status-badge .dot{width:7px;height:7px;border-radius:50%;}
+.status-badge.pending{background:var(--amber-bg);color:var(--amber-500);}
+.status-badge.pending .dot{background:var(--amber-500);}
+.status-badge.active{background:var(--green-bg);color:var(--green-500);}
+.status-badge.active .dot{background:var(--green-500);}
+.status-badge.rejected{background:var(--red-bg);color:var(--red-500);}
+.status-badge.rejected .dot{background:var(--red-500);}
+.status-badge.expired{background:rgba(136,144,166,0.16);color:var(--ink-500);}
+.status-badge.expired .dot{background:var(--ink-500);}
+.status-badge.cancelled{background:rgba(136,144,166,0.16);color:var(--ink-500);}
+.status-badge.cancelled .dot{background:var(--ink-500);}
+
+.status-page{max-width:560px;margin:0 auto;text-align:center;padding:40px 0;}
+.status-icon{width:56px;height:56px;margin:0 auto 22px;}
+.status-page h1{font-family:var(--serif);font-size:28px;margin:0 0 10px;color:var(--ink-050);}
+.status-page .sub{color:var(--ink-300);font-size:14.5px;margin-bottom:30px;}
+.status-card{border:1px solid var(--hairline);background:var(--navy-900);border-radius:var(--radius-l);padding:28px;text-align:left;margin-bottom:24px;}
+.status-card .row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--hairline);font-size:14px;}
+.status-card .row:last-child{border-bottom:none;}
+.status-card .row .k{color:var(--ink-500);}
+.status-card .row .v{color:var(--ink-050);font-weight:500;}
+.msgbox{font-size:13.5px;color:var(--ink-300);background:var(--navy-900);border:1px solid var(--hairline);border-radius:var(--radius-m);padding:18px 20px;margin-bottom:24px;}
+
+/* admin */
+.admin-shell{display:flex;min-height:100vh;}
+.admin-sidebar{width:220px;flex:0 0 220px;background:var(--navy-900);border-right:1px solid var(--hairline);padding:24px 0;position:sticky;top:0;height:100vh;}
+.admin-sidebar .brand{padding:0 22px 22px;border-bottom:1px solid var(--hairline);margin-bottom:14px;}
+.admin-sidebar .brand .name{font-family:var(--serif);font-size:16px;color:var(--ink-050);}
+.admin-sidebar .brand .tag{font-size:11px;color:var(--ink-500);}
+.admin-nav a{display:block;padding:11px 22px;font-size:13.5px;color:var(--ink-300);cursor:pointer;border-left:2px solid transparent;}
+.admin-nav a:hover{color:var(--ink-050);}
+.admin-nav a.active{color:var(--gold-300);border-left-color:var(--gold-400);background:rgba(201,162,75,0.06);}
+.admin-nav .divider{height:1px;background:var(--hairline);margin:12px 22px;}
+.admin-main{flex:1;min-width:0;padding:32px 36px 60px;}
+@media (max-width:860px){.admin-shell{flex-direction:column;}.admin-sidebar{width:100%;flex:none;height:auto;position:relative;padding:14px 0;}.admin-nav{display:flex;overflow-x:auto;padding:0 10px;}.admin-nav a{white-space:nowrap;border-left:none;border-bottom:2px solid transparent;}.admin-nav a.active{border-left:none;border-bottom-color:var(--gold-400);}.admin-nav .divider{display:none;}.admin-main{padding:24px 18px 50px;}}
+.admin-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+.admin-topbar h1{font-family:var(--serif);font-size:24px;margin:0;color:var(--ink-050);}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px;}
+@media (max-width:860px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+.kpi-card{border:1px solid var(--hairline);background:var(--navy-900);border-radius:var(--radius-m);padding:20px;}
+.kpi-card .label{font-size:12px;color:var(--ink-500);margin-bottom:8px;letter-spacing:0.02em;}
+.kpi-card .value{font-family:var(--serif);font-size:26px;color:var(--ink-050);}
+.panel{border:1px solid var(--hairline);background:var(--navy-900);border-radius:var(--radius-m);overflow:hidden;margin-bottom:28px;}
+.panel-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--hairline);flex-wrap:wrap;gap:10px;}
+.panel-head h3{margin:0;font-size:15px;color:var(--ink-050);}
+table.admtbl{width:100%;border-collapse:collapse;font-size:13.5px;}
+table.admtbl th{text-align:left;padding:11px 16px;color:var(--ink-500);font-weight:500;font-size:12px;border-bottom:1px solid var(--hairline);white-space:nowrap;}
+table.admtbl td{padding:12px 16px;border-bottom:1px solid var(--hairline);color:var(--ink-100);vertical-align:middle;white-space:nowrap;}
+table.admtbl tr:last-child td{border-bottom:none;}
+.tbl-wrap{overflow-x:auto;}
+.link-btn{color:var(--blue-400);cursor:pointer;font-size:13px;}
+.link-btn:hover{text-decoration:underline;}
+.empty-row td{text-align:center;color:var(--ink-500);padding:40px 16px;}
+.search-input{background:var(--navy-850);border:1px solid var(--navy-600);border-radius:var(--radius-s);padding:9px 13px;color:var(--ink-100);font-size:13.5px;min-width:200px;}
+.chip-filters{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{border:1px solid var(--navy-600);border-radius:999px;padding:6px 13px;font-size:12.5px;color:var(--ink-300);cursor:pointer;}
+.chip.active{background:var(--gold-400);color:#1B1404;border-color:var(--gold-400);}
+
+/* modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(4,6,12,0.7);backdrop-filter:blur(3px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal{background:var(--navy-900);border:1px solid var(--navy-600);border-radius:var(--radius-l);max-width:560px;width:100%;max-height:88vh;overflow-y:auto;padding:30px;}
+.modal h3{font-family:var(--serif);font-size:20px;margin:0 0 18px;color:var(--ink-050);}
+.modal .row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--hairline);font-size:13.5px;}
+.modal .row .k{color:var(--ink-500);}
+.modal .row .v{color:var(--ink-100);text-align:right;max-width:60%;}
+.modal-actions{display:flex;gap:10px;margin-top:24px;}
+.modal img.ss{width:100%;border-radius:var(--radius-s);margin:14px 0;border:1px solid var(--navy-600);}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--navy-800);border:1px solid var(--navy-600);color:var(--ink-050);padding:13px 22px;border-radius:var(--radius-s);font-size:13.5px;z-index:200;box-shadow:0 12px 30px rgba(0,0,0,0.4);opacity:0;transition:opacity .25s ease;pointer-events:none;}
+.toast.show{opacity:1;}
+
+.login-shell{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-card{width:100%;max-width:380px;border:1px solid var(--hairline);background:var(--navy-900);border-radius:var(--radius-l);padding:36px 32px;text-align:center;}
+
+.demo-banner{background:var(--navy-800);border-bottom:1px solid var(--hairline);font-size:12px;color:var(--ink-500);text-align:center;padding:8px 14px;}
+.demo-banner b{color:var(--gold-300);}
+
+.legal-body{max-width:680px;margin:0 auto;padding:70px 0 100px;}
+.legal-body h1{font-family:var(--serif);font-size:30px;margin-bottom:24px;}
+.legal-body p, .legal-body li{color:var(--ink-300);font-size:14.5px;line-height:1.8;}
+
+@keyframes fadein{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.fade-in{animation:fadein .45s ease both;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" class="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =========================================================================
+   CHARTS LIBRARY — LIVE APP (Supabase-backed)
+   Real Postgres database, real admin authentication, private screenshot storage.
+   Replace SUPABASE_URL / SUPABASE_ANON_KEY below if you ever create a new project.
+   ========================================================================= */
+
+const SUPABASE_URL = 'https://ixanehefibliazfqdmkb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4YW5laGVmaWJsaWF6ZnFkbWtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1MDc5MTgsImV4cCI6MjEwNDA4MzkxOH0.buxU51dPfTaKFHctARIHEt9hnsbQZCtcnv66FjENgx0';
+const SCREENSHOT_BUCKET = 'payment-screenshots';
+
+// persistSession:false — avoids relying on browser storage for the session;
+// admin simply signs in again after a page refresh.
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: false, autoRefreshToken: false }
+});
+
+/* ---------------- default settings (used only if the settings table is empty) ---------------- */
+const DEFAULT_SETTINGS = {
+  brand_name:'Charts Library',
+  upi_id:'chartslibrary@upi',
+  upi_note:'Charts Library Premium Membership',
+  whatsapp_support:'+91 90000 00000',
+  whatsapp_channel_name:'Charts Library — Premium Channel',
+  whatsapp_channel_link:'https://whatsapp.com/channel/your-channel-id',
+  whatsapp_instructions:'Tap the button below to open WhatsApp and join the Premium Channel. Access is granted to the mobile number used at checkout.',
+};
+
+/* ---------------- DB layer (Supabase) ---------------- */
+const DB = {
+  async getPlans(){
+    const {data, error} = await sb.from('plans').select('*').order('display_order');
+    if(error){ console.error(error); return []; }
+    return data || [];
+  },
+  async updatePlanField(planId, field, value){
+    const {error} = await sb.from('plans').update({[field]: value}).eq('id', planId);
+    if(error){ console.error(error); return false; }
+    return true;
+  },
+  async deletePlan(planId){
+    const {error} = await sb.from('plans').delete().eq('id', planId);
+    return !error;
+  },
+
+  async getSettings(){
+    const {data, error} = await sb.from('settings').select('*');
+    if(error || !data || !data.length) return DEFAULT_SETTINGS;
+    const obj = Object.assign({}, DEFAULT_SETTINGS);
+    data.forEach(row => obj[row.key] = row.value);
+    return obj;
+  },
+  async saveSettings(patchObj){
+    const rows = Object.keys(patchObj).map(k => ({key:k, value:String(patchObj[k])}));
+    const {error} = await sb.from('settings').upsert(rows);
+    return !error;
+  },
+
+  async createOrder(order){
+    // try a few times in case of an order_id collision
+    for(let attempt=0; attempt<3; attempt++){
+      const {error} = await sb.from('orders').insert([order]);
+      if(!error) return true;
+      if(error.code === '23505'){ // unique_violation on order_id
+        order.order_id = await genOrderId();
+        continue;
+      }
+      console.error(error);
+      return false;
+    }
+    return false;
+  },
+  async getOrder(orderId){
+    const {data, error} = await sb.from('orders').select('*').eq('order_id', orderId).maybeSingle();
+    if(error){ console.error(error); return null; }
+    return data;
+  },
+  async updateOrder(orderId, patch){
+    const {data, error} = await sb.from('orders').update(patch).eq('order_id', orderId).select().maybeSingle();
+    if(error){ console.error(error); return null; }
+    return data;
+  },
+  async listOrders(){
+    const {data, error} = await sb.from('orders').select('*').order('created_at', {ascending:false});
+    if(error){ console.error(error); return []; }
+    return data || [];
+  },
+
+  async addAudit(action, target, meta){
+    const session = await getSession();
+    const admin_email = session ? session.user.email : null;
+    await sb.from('audit_logs').insert([{admin_email, action, target, meta: meta||''}]);
+  },
+  async listAudit(){
+    const {data, error} = await sb.from('audit_logs').select('*').order('created_at',{ascending:false}).limit(80);
+    if(error){ console.error(error); return []; }
+    return data || [];
+  },
+
+  async uploadScreenshot(orderId, dataUrl){
+    // dataUrl -> blob
+    const blob = await (await fetch(dataUrl)).blob();
+    const path = orderId + '.jpg';
+    const {error} = await sb.storage.from(SCREENSHOT_BUCKET).upload(path, blob, {
+      contentType: 'image/jpeg', upsert: true
+    });
+    if(error){ console.error(error); return null; }
+    return path;
+  },
+  async getScreenshotSignedUrl(path){
+    if(!path) return null;
+    const {data, error} = await sb.storage.from(SCREENSHOT_BUCKET).createSignedUrl(path, 3600);
+    if(error){ console.error(error); return null; }
+    return data.signedUrl;
+  },
+};
+
+async function genOrderId(){
+  const d = new Date();
+  const ymd = d.getFullYear().toString().slice(2) + pad(d.getMonth()+1) + pad(d.getDate());
+  const suffix = pad(Date.now() % 1000, 3) + Math.floor(Math.random()*9);
+  return 'CL' + ymd + suffix;
+}
+
+/* ---------------- auth ---------------- */
+async function getSession(){
+  const {data} = await sb.auth.getSession();
+  return data.session;
+}
+let ADMIN_EMAIL = null;
+async function adminSignIn(email, password){
+  const {data, error} = await sb.auth.signInWithPassword({email, password});
+  if(error) return {ok:false, message: error.message};
+  ADMIN_EMAIL = data.user.email;
+  return {ok:true};
+}
+async function adminSignOut(){
+  await sb.auth.signOut();
+  ADMIN_EMAIL = null;
+}
+
+/* ---------------- utils ---------------- */
+function pad(n, len){ len=len||2; n=String(n); while(n.length<len) n='0'+n; return n; }
+function nowISO(){ return new Date().toISOString(); }
+function fmtDate(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+}
+function fmtDateTime(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'}) + ' · ' + d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+}
+function inr(n){ return '₹' + Number(n).toLocaleString('en-IN'); }
+function esc(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function addMonthsClamped(dateISO, months){
+  const d = new Date(dateISO);
+  const day = d.getDate();
+  d.setDate(1);
+  d.setMonth(d.getMonth() + months);
+  const lastDay = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+  d.setDate(Math.min(day, lastDay));
+  return d.toISOString();
+}
+function daysUntil(iso){
+  const now = new Date(); now.setHours(0,0,0,0);
+  const target = new Date(iso); target.setHours(0,0,0,0);
+  return Math.round((target-now)/86400000);
+}
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+function validMobile(m){ return /^[6-9]\d{9}$/.test((m||'').replace(/\D/g,'').slice(-10)); }
+function validEmail(e){ return !e || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+async function resizeImageFile(file, maxDim, quality){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let w = img.width, h = img.height;
+        if(w > h && w > maxDim){ h = Math.round(h * maxDim / w); w = maxDim; }
+        else if(h > maxDim){ w = Math.round(w * maxDim / h); h = maxDim; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0,0,w,h);
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function deriveMembershipView(order){
+  if(order.membership_status === 'ACTIVE' && order.expiry_date && daysUntil(order.expiry_date) < 0){
+    return Object.assign({}, order, {membership_status:'EXPIRED'});
+  }
+  return order;
+}
+
+/* ---------------- router ---------------- */
+let ROUTE = {name:'home', params:{}};
+function parseHash(){
+  const h = location.hash.replace(/^#\/?/, '');
+  const parts = h.split('/').filter(Boolean);
+  if(parts.length===0) return {name:'home', params:{}};
+  return {name: parts[0], params: parts.slice(1)};
+}
+window.addEventListener('hashchange', ()=>{ ROUTE = parseHash(); render(); window.scrollTo(0,0); });
+function go(hash){ location.hash = hash; }
+
+/* ---------------- icons ---------------- */
+const ICON = {
+  research:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="10" cy="10" r="6.5"/><line x1="15" y1="15" x2="20.5" y2="20.5"/></svg>',
+  quality:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2.5l2.6 5.6 6.1.7-4.5 4.3 1.1 6.1L12 16.3 6.7 19.2l1.1-6.1L3.3 8.8l6.1-.7z"/></svg>',
+  swing:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><polyline points="3,17 9,10 13,14 21,5"/><polyline points="15,5 21,5 21,11"/></svg>',
+  risk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2.5l8 3.6v5.4c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V6.1z"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4,12.5 9,17.5 20,6.5"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 16,14"/></svg>',
+  cross:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.79.47 3.47 1.29 4.92L2 22l5.31-1.39a9.9 9.9 0 0 0 4.73 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.79 14.09c-.24.68-1.42 1.32-1.96 1.4-.5.08-1.14.11-1.84-.12-.42-.14-.97-.31-1.67-.61-2.94-1.27-4.86-4.23-5-4.43-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.26-.29.58-.36.77-.36h.55c.18 0 .42-.02.65.5.24.55.81 1.9.88 2.03.07.14.12.3.02.49-.09.19-.14.3-.28.46-.14.16-.29.36-.42.48-.14.14-.28.28-.12.55.15.28.68 1.13 1.47 1.83 1.01.9 1.86 1.18 2.14 1.31.28.14.44.12.6-.07.16-.2.68-.79.87-1.06.18-.28.37-.23.61-.14.25.09 1.58.75 1.85.89.28.14.46.2.53.32.07.12.07.68-.17 1.36z"/></svg>',
+};
+
+/* ---------------- shell ---------------- */
+function topNav(){
+  return `
+  <div class="topnav">
+    <div class="wrap">
+      <div class="brandmark" onclick="go('')">
+        ${brandGlyph()}
+        <span class="name">Charts Library</span>
+      </div>
+      <div class="navlinks">
+        <a onclick="go('#/'); setTimeout(()=>scrollToId('why'),50)">Why Us</a>
+        <a onclick="go('#/plans')">Membership</a>
+        <a onclick="go('#/'); setTimeout(()=>scrollToId('howitworks'),50)">How It Works</a>
+        <a onclick="go('#/support')">Support</a>
+      </div>
+      <div class="navcta">
+        <span class="btn btn-gold btn-sm" onclick="go('#/plans')">Join Premium</span>
+      </div>
+    </div>
+  </div>`;
+}
+function brandGlyph(){
+  return `<svg class="mark" viewBox="0 0 26 26" fill="none"><rect x="0.5" y="0.5" width="25" height="25" rx="5" stroke="#C9A24B" stroke-width="1"/><polyline points="5,17 10,11 14,14 21,6" stroke="#C9A24B" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+function scrollToId(id){ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+function footerHTML(){
+  return `
+  <footer>
+    <div class="wrap">
+      <div class="footer-row">
+        <div>© ${new Date().getFullYear()} Charts Library. Research &amp; education only — not investment advice.</div>
+        <div class="footer-links">
+          <a onclick="go('#/legal/terms')">Terms</a>
+          <a onclick="go('#/legal/privacy')">Privacy</a>
+          <a onclick="go('#/legal/disclaimer')">Disclaimer</a>
+          <a onclick="go('#/legal/refund')">Refund Policy</a>
+          <a onclick="go('#/support')">Support</a>
+          <a onclick="go('#/admin')" style="opacity:0.55">Admin</a>
+        </div>
+      </div>
+    </div>
+  </footer>`;
+}
+
+/* ---------------- HOME ---------------- */
+async function renderHome(){
+  const [plans, settings] = await Promise.all([DB.getPlans(), DB.getSettings()]);
+  const activePlans = plans.filter(p=>p.active).sort((a,b)=>a.display_order-b.display_order);
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    ${topNav()}
+    <section class="hero">
+      <div class="hero-bg">${heroTimelineArt()}</div>
+      <div class="wrap hero-inner fade-in">
+        <div class="eyebrow">PREMIUM STOCK RESEARCH &amp; MARKET INSIGHTS</div>
+        <h1>10 Years.<br>One Mission.<br><em>Build Wealth, Not Hype.</em></h1>
+        <p class="lead">A long-term research community for investors who'd rather compound quietly for a decade than chase the next tip. Fundamentals, technicals, and disciplined risk management — nothing else.</p>
+        <div class="ctas">
+          <span class="btn btn-gold" onclick="go('#/plans')">Join Premium</span>
+          <span class="btn btn-outline" onclick="scrollToId('plans')">Explore Membership</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="why">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Why Charts Library</h2>
+          <p>This is not a stock-tips channel. It's a research discipline, delivered consistently, for people playing a ten-year game.</p>
+        </div>
+        <div class="grid4">
+          <div class="benefit-card"><div class="bicon">${ICON.quality}</div><h3>Quality Stocks</h3><p>Businesses we'd hold through a cycle, not a headline.</p></div>
+          <div class="benefit-card"><div class="bicon">${ICON.research}</div><h3>Fundamental Research</h3><p>Financials, moats, and management — read before recommended.</p></div>
+          <div class="benefit-card"><div class="bicon">${ICON.swing}</div><h3>Swing &amp; Positional</h3><p>Technically framed opportunities with defined risk.</p></div>
+          <div class="benefit-card"><div class="bicon">${ICON.risk}</div><h3>Discipline &amp; Risk</h3><p>Position sizing and downside thinking before upside.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block tight">
+      <div class="wrap">
+        <div class="mission">
+          <div class="mission-grid">
+            <div>
+              <div class="eyebrow" style="margin-bottom:14px;">THE 10-YEAR MISSION</div>
+              <blockquote>"Wealth creation doesn't happen overnight. Time, capital, discipline, and compounding — held together for a decade — is what creates it."</blockquote>
+              <p class="muted" style="font-size:14px;margin:0 0 18px;">No shortcuts. No gambling. No blind tips. Just quality stocks, long-term investing, and the patience to let compounding do the work.</p>
+              <div class="pillar-row">
+                <span class="pill">Learning</span><span class="pill">Discipline</span><span class="pill">Risk Management</span><span class="pill">Patience</span><span class="pill">Compounding</span>
+              </div>
+            </div>
+            <div>
+              ${missionTimelineArt()}
+              <div class="illus-note">Illustrative wealth-building example — not a promised or guaranteed return.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap">
+        <div class="section-head"><h2>Our Approach</h2></div>
+        <div class="approach-row">
+          <div class="approach-item"><div class="num">01</div><div class="label">Research</div></div>
+          <div class="approach-item"><div class="num">02</div><div class="label">Analysis</div></div>
+          <div class="approach-item"><div class="num">03</div><div class="label">Risk</div></div>
+          <div class="approach-item"><div class="num">04</div><div class="label">Discipline</div></div>
+          <div class="approach-item"><div class="num">05</div><div class="label">Patience</div></div>
+          <div class="approach-item"><div class="num">06</div><div class="label">Compounding</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="plans">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Membership Plans</h2>
+          <p>One membership. Full research access. Choose the length that fits your horizon.</p>
+        </div>
+        <div class="grid4plans">${activePlans.map(p=>planCard(p)).join('')}</div>
+      </div>
+    </section>
+
+    <section class="block tight" id="howitworks">
+      <div class="wrap">
+        <div class="section-head"><h2>How It Works</h2></div>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><p>Choose your plan</p></div>
+          <div class="step"><div class="n">2</div><p>Make payment via UPI</p></div>
+          <div class="step"><div class="n">3</div><p>Submit payment details</p></div>
+          <div class="step"><div class="n">4</div><p>We verify manually</p></div>
+          <div class="step"><div class="n">5</div><p>Get Premium access</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block tight">
+      <div class="wrap">
+        <div class="disclaimer-box">
+          <strong>A note on what this is.</strong> Charts Library is a research and education community. Nothing shared here is investment advice, and past performance or illustrative examples never guarantee future returns. Investing in securities markets carries risk — please read our documents carefully and consult a qualified advisor before making investment decisions.
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap">
+        <div class="section-head"><h2>Frequently Asked</h2></div>
+        <div>${faqHTML()}</div>
+      </div>
+    </section>
+
+    <section class="finalcta">
+      <div class="wrap">
+        <h2>Start Your 10-Year Journey</h2>
+        <p>Research. Discipline. Compounding. Think in years, not days.</p>
+        <span class="btn btn-gold" onclick="go('#/plans')">Join Premium</span>
+      </div>
+    </section>
+
+    ${footerHTML()}
+  `;
+}
+
+function planCard(p){
+  const badgeClass = p.badge==='BEST VALUE' ? 'best' : (p.badge==='POPULAR' ? 'pop' : '');
+  const featured = p.badge==='BEST VALUE' ? 'featured' : '';
+  let save = '';
+  if(p.duration_months>1){
+    const base = 1000; // reference: 1-month price
+    const diff = (base * p.duration_months) - p.price;
+    if(diff>0) save = `Save ${inr(diff)} vs. monthly`;
+  }
+  return `
+  <div class="plan-card ${featured}">
+    ${p.badge ? `<span class="plan-badge ${badgeClass}">${esc(p.badge)}</span>` : ''}
+    <div class="plan-name">${esc(p.name)}</div>
+    <div class="plan-price"><sup>₹</sup>${Number(p.price).toLocaleString('en-IN')}</div>
+    <div class="plan-save">${save}</div>
+    <span class="btn ${featured?'btn-gold':'btn-outline'} btn-block" onclick="go('#/join/${p.id}')">Choose Plan</span>
+  </div>`;
+}
+
+function faqHTML(){
+  const items = [
+    ['Is this financial advice?', 'No. Charts Library shares research, education, and analysis for informational purposes. It is not personalised investment advice, and you should consult a qualified advisor before investing.'],
+    ['How is payment verified?', 'We use manual verification. After you submit your UTR and payment screenshot, our team checks it against the payment received and activates your membership — usually within a short window, though we don\'t promise a fixed time.'],
+    ['How do I access the WhatsApp channel?', 'Once your membership is approved, you\'ll receive access to our Premium WhatsApp Channel using the number you registered with. If you don\'t hear back, reach out via Support.'],
+    ['What happens when my membership expires?', 'You\'ll stop receiving new premium research. You can renew any time from the membership page.'],
+  ];
+  return items.map(it=>`
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span>${esc(it[0])}</span><span class="chev">+</span></div>
+      <div class="faq-a">${esc(it[1])}</div>
+    </div>`).join('');
+}
+
+function heroTimelineArt(){
+  return `<svg class="timeline-svg" viewBox="0 0 900 340" preserveAspectRatio="xMidYMid slice" style="position:absolute;right:-160px;top:-30px;width:760px;opacity:0.5;">
+    <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C9A24B" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#C9A24B" stop-opacity="0.75"/>
+    </linearGradient></defs>
+    <polyline points="40,260 140,235 220,250 300,190 380,205 460,140 540,160 620,95 700,110 780,55" fill="none" stroke="url(#lg1)" stroke-width="2"/>
+    <g fill="#C9A24B" opacity="0.6"><circle cx="780" cy="55" r="3.5"/></g>
+  </svg>`;
+}
+function missionTimelineArt(){
+  return `<svg class="timeline-svg" viewBox="0 0 420 220">
+    <line x1="30" y1="180" x2="390" y2="180" stroke="#202C48" stroke-width="1"/>
+    <polyline points="30,175 120,150 190,155 260,110 320,95 390,40" fill="none" stroke="#C9A24B" stroke-width="2"/>
+    <circle cx="30" cy="175" r="4" fill="#8890A6"/>
+    <circle cx="390" cy="40" r="4.5" fill="#E7CD8E"/>
+    <text x="20" y="205" fill="#8890A6" font-size="12" font-family="Inter, sans-serif">TODAY</text>
+    <text x="345" y="205" fill="#E7CD8E" font-size="12" font-family="Inter, sans-serif">10 YEARS</text>
+  </svg>`;
+}
+
+/* ---------------- PLANS PAGE ---------------- */
+async function renderPlansPage(){
+  const plans = await DB.getPlans();
+  const activePlans = plans.filter(p=>p.active).sort((a,b)=>a.display_order-b.display_order);
+  document.getElementById('app').innerHTML = `
+    ${topNav()}
+    <div class="formpage">
+      <div class="wrap">
+        <div class="back-link" onclick="go('')">&larr; Back to home</div>
+        <div class="section-head"><h2>Membership Plans</h2><p>Choose your horizon. Every plan includes full research access.</p></div>
+        <div class="grid4plans">${activePlans.map(p=>planCard(p)).join('')}</div>
+      </div>
+    </div>
+    ${footerHTML()}
+  `;
+}
+
+/* ---------------- JOIN ---------------- */
+async function renderJoin(planId){
+  const plans = await DB.getPlans();
+  let plan = plans.find(p=>p.id===planId);
+  if(!plan) plan = plans.filter(p=>p.active)[0];
+  if(!plan){ document.getElementById('app').innerHTML = `${topNav()}<div class="formpage"><div class="wrap"><p class="dim">No plans available right now.</p></div></div>`; return; }
+  document.getElementById('app').innerHTML = `
+    ${topNav()}
+    <div class="formpage">
+      <div class="wrap formcol">
+        <div class="back-link" onclick="go('#/plans')">&larr; Change plan</div>
+        <div class="form-card fade-in">
+          <h2>Your Details</h2>
+          <div class="sub">Selected plan: <strong style="color:var(--ink-100)">${esc(plan.name)} — ${inr(plan.price)}</strong></div>
+          <form id="joinForm" novalidate>
+            <div class="field" id="f-name">
+              <label>Full Name</label>
+              <input type="text" name="name" placeholder="As per your ID" autocomplete="name" />
+              <div class="err">Please enter your full name.</div>
+            </div>
+            <div class="field" id="f-mobile">
+              <label>WhatsApp Mobile Number</label>
+              <input type="tel" name="mobile" inputmode="numeric" placeholder="10-digit mobile number" maxlength="10" autocomplete="tel" />
+              <div class="hint">This number will be used for your Premium WhatsApp access.</div>
+              <div class="err">Enter a valid 10-digit Indian mobile number.</div>
+            </div>
+            <div class="field" id="f-email">
+              <label>Email Address <span class="dim">(recommended)</span></label>
+              <input type="email" name="email" placeholder="you@email.com" autocomplete="email" />
+              <div class="err">Enter a valid email address.</div>
+            </div>
+            <button type="submit" class="btn btn-gold btn-block">Continue to Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    ${footerHTML()}
+  `;
+  document.getElementById('joinForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const f = e.target;
+    let ok = true;
+    const name = f.name.value.trim();
+    const mobile = f.mobile.value.trim();
+    const email = f.email.value.trim();
+    toggleFieldError('f-name', name.length < 2); if(name.length<2) ok=false;
+    toggleFieldError('f-mobile', !validMobile(mobile)); if(!validMobile(mobile)) ok=false;
+    toggleFieldError('f-email', !validEmail(email)); if(!validEmail(email)) ok=false;
+    if(!ok) return;
+    window.__pendingSignup = {name, mobile: mobile.slice(-10), email, planId: plan.id};
+    go('#/payment/'+plan.id);
+  });
+}
+function toggleFieldError(id, hasError){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('invalid', !!hasError);
+}
+
+/* ---------------- PAYMENT PAGE ---------------- */
+async function renderPaymentPage(planId){
+  const [plans, settings] = await Promise.all([DB.getPlans(), DB.getSettings()]);
+  const plan = plans.find(p=>p.id===planId) || plans[0];
+  const signup = window.__pendingSignup;
+  if(!signup || signup.planId !== plan.id){ go('#/join/'+plan.id); return; }
+  document.getElementById('app').innerHTML = `
+    ${topNav()}
+    <div class="formpage">
+      <div class="wrap formcol">
+        <div class="back-link" onclick="go('#/join/${plan.id}')">&larr; Edit details</div>
+        <div class="form-card fade-in">
+          <h2>Complete Your Membership</h2>
+          <div class="sub">Charts Library Premium</div>
+          <div class="summary-row"><span class="muted">Selected Plan</span><span>${esc(plan.name)}</span></div>
+          <div class="summary-row total"><span>Membership Fee</span><span>${inr(plan.price)}</span></div>
+          <div style="margin-top:24px;">
+            <label style="display:block;font-size:13px;color:var(--ink-300);margin-bottom:10px;">PAY VIA UPI</label>
+            <div class="qr-box">${qrPlaceholderSVG()}</div>
+            <div class="upi-id-row">
+              <code id="upiIdText">${esc(settings.upi_id)}</code>
+              <span class="copy-btn" onclick="copyUPI()">Copy UPI ID</span>
+            </div>
+            <ol class="instr-list">
+              <li>Scan the QR code or use the UPI ID above.</li>
+              <li>Complete the payment of ${inr(plan.price)}.</li>
+              <li>Save your UTR / Transaction ID.</li>
+              <li>Upload your payment screenshot.</li>
+              <li>Submit for verification.</li>
+            </ol>
+          </div>
+          <div class="disclaimer-box" style="margin-top:20px;font-size:12.5px;">
+            Membership is activated only after manual payment verification.
+          </div>
+          <span class="btn btn-gold btn-block" style="margin-top:22px;" onclick="go('#/submit-payment/${plan.id}')">I've Paid — Submit Payment Details</span>
+        </div>
+      </div>
+    </div>
+    ${footerHTML()}
+  `;
+}
+function copyUPI(){
+  const t = document.getElementById('upiIdText').textContent;
+  if(navigator.clipboard){ navigator.clipboard.writeText(t).then(()=>toast('UPI ID copied')); }
+  else toast('UPI ID: '+t);
+}
+function qrPlaceholderSVG(){
+  return `<svg width="180" height="180" viewBox="0 0 180 180">
+    <rect width="180" height="180" fill="#fff"/>${qrDots()}
+    <rect x="70" y="70" width="40" height="40" fill="#fff" stroke="#0A0F1C" stroke-width="1.5"/>
+    <text x="90" y="94" text-anchor="middle" font-size="9" fill="#0A0F1C" font-family="Inter">UPI</text>
+  </svg>`;
+}
+function qrDots(){
+  let out = '';
+  let rnd = 137;
+  const next = ()=>{ rnd = (rnd*9301+49297)%233280; return rnd/233280; };
+  for(let y=0;y<18;y++){
+    for(let x=0;x<18;x++){
+      if((x<4&&y<4)||(x>13&&y<4)||(x<4&&y>13)) continue;
+      if(next() > 0.52) out += `<rect x="${x*10}" y="${y*10}" width="9" height="9" fill="#0A0F1C"/>`;
+    }
+  }
+  [[0,0],[130,0],[0,130]].forEach(([fx,fy])=>{
+    out += `<rect x="${fx}" y="${fy}" width="40" height="40" fill="#0A0F1C"/>`;
+    out += `<rect x="${fx+7}" y="${fy+7}" width="26" height="26" fill="#fff"/>`;
+    out += `<rect x="${fx+14}" y="${fy+14}" width="12" height="12" fill="#0A0F1C"/>`;
+  });
+  return out;
+}
+
+/* ---------------- SUBMIT PAYMENT ---------------- */
+async function renderSubmitPayment(planId){
+  const plans = await DB.getPlans();
+  const plan = plans.find(p=>p.id===planId) || plans[0];
+  const signup = window.__pendingSignup;
+  if(!signup || signup.planId !== plan.id){ go('#/join/'+plan.id); return; }
+  document.getElementById('app').innerHTML = `
+    ${topNav()}
+    <div class="formpage">
+      <div class="wrap formcol">
+        <div class="back-link" onclick="go('#/payment/${plan.id}')">&larr; Back to payment instructions</div>
+        <div class="form-card fade-in">
+          <h2>Submit Payment for Verification</h2>
+          <div class="sub">${esc(plan.name)} · ${inr(plan.price)}</div>
+          <form id="paySubmitForm" novalidate>
+            <div class="field" id="f-utr">
+              <label>UTR / Transaction ID</label>
+              <input type="text" name="utr" placeholder="12-digit UTR or transaction reference" />
+              <div class="err">Please enter a valid transaction/reference ID.</div>
+            </div>
+            <div class="field" id="f-pdate">
+              <label>Payment Date</label>
+              <input type="date" name="paymentDate" value="${new Date().toISOString().slice(0,10)}" max="${new Date().toISOString().slice(0,10)}" />
+              <div class="err">Please select the date you made the payment.</div>
+            </div>
+            <div class="field" id="f-shot">
+              <label>Payment Screenshot</label>
+              <div class="upload-box" id="uploadBox" onclick="document.getElementById('shotInput').click()">
+                <div id="uploadLabel">Tap to upload from camera or gallery<br><span class="dim" style="font-size:12px;">JPG, PNG or WebP · up to 8MB</span></div>
+                <div class="upload-preview" id="uploadPreview" style="display:none;"><img id="uploadImg" /></div>
+              </div>
+              <input type="file" id="shotInput" accept="image/png,image/jpeg,image/webp" style="display:none" />
+              <div class="err">Please upload your payment screenshot.</div>
+            </div>
+            <button type="submit" class="btn btn-gold btn-block" id="submitBtn">Submit Payment for Verification</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    ${footerHTML()}
+  `;
+
+  let screenshotDataUrl = null;
+  const shotInput = document.getElementById('shotInput');
+  shotInput.addEventListener('change', async ()=>{
+    const file = shotInput.files[0];
+    if(!file) return;
+    if(!/^image\/(png|jpeg|jpg|webp)$/.test(file.type)){ toast('Please upload a JPG, PNG or WebP image.'); return; }
+    if(file.size > 8*1024*1024){ toast('Please upload an image smaller than 8MB.'); return; }
+    try{
+      screenshotDataUrl = await resizeImageFile(file, 900, 0.72);
+      document.getElementById('uploadImg').src = screenshotDataUrl;
+      document.getElementById('uploadPreview').style.display = 'block';
+      document.getElementById('uploadLabel').innerHTML = 'Screenshot attached — tap to replace';
+      document.getElementById('uploadBox').classList.add('has-file');
+      toggleFieldError('f-shot', false);
+    }catch(err){ toast("We couldn't process that image. Please try again."); }
+  });
+
+  document.getElementById('paySubmitForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const f = e.target;
+    let ok = true;
+    const utr = f.utr.value.trim();
+    const paymentDate = f.paymentDate.value;
+    toggleFieldError('f-utr', utr.length < 4); if(utr.length<4) ok=false;
+    toggleFieldError('f-pdate', !paymentDate); if(!paymentDate) ok=false;
+    toggleFieldError('f-shot', !screenshotDataUrl); if(!screenshotDataUrl) ok=false;
+    if(!ok) return;
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = 'Submitting…';
+
+    try{
+      const orderId = await genOrderId();
+      const screenshotPath = await DB.uploadScreenshot(orderId, screenshotDataUrl);
+      const order = {
+        order_id: orderId,
+        name: signup.name,
+        mobile: signup.mobile,
+        email: signup.email || null,
+        plan_id: plan.id,
+        plan_name: plan.name,
+        duration_months: plan.duration_months,
+        amount: plan.price,
+        utr,
+        payment_date: paymentDate,
+        screenshot_path: screenshotPath,
+        payment_status: 'PENDING',
+        membership_status: 'PAYMENT_PENDING',
+        whatsapp_access_status: 'NOT_GRANTED',
+        notes: [],
+      };
+      const ok2 = await DB.createOrder(order);
+      if(!ok2) throw new Error('save failed');
+      window.__pendingSignup = null;
+      window.__lastSubmittedOrder = order; // used to render the confirmation without a public read
+      go('#/submitted/'+orderId);
+    }catch(err){
+      toast("We couldn't submit your payment details. Please try again.");
+      btn.disabled = false; btn.textContent = 'Submit Payment for Verification';
+    }
+  });
+}
+
+/* ---------------- SUBMITTED CONFIRMATION ----------------
+   Public status lookup isn't wired up yet (RLS intentionally blocks
+   public reads of the orders table), so this page renders once, right
+   after submission, from the data we already have in memory. */
+async function renderSubmitted(orderId){
+  const settings = await DB.getSettings();
+  const order = window.__lastSubmittedOrder;
+  const app = document.getElementById('app');
+  if(!order || order.order_id !== orderId){
+    app.innerHTML = `
+      ${topNav()}
+      <div class="formpage"><div class="wrap"><div class="status-page fade-in">
+        ${iconCircle('amber', ICON.clock)}
+        <h1>Payment Submitted</h1>
+        <p class="sub">Your Order ID is <strong style="color:var(--ink-100)">${esc(orderId)}</strong>. Please save it — for now, contact Support with this Order ID for any status updates.</p>
+        <span class="btn btn-outline" onclick="go('#/support')">Contact Support</span>
+      </div></div></div>
+      ${footerHTML()}`;
+    return;
+  }
+  app.innerHTML = `
+    ${topNav()}
+    <div class="formpage"><div class="wrap">
+      <div class="status-page fade-in">
+        ${iconCircle('amber', ICON.clock)}
+        <h1>Payment Submitted</h1>
+        <p class="sub">We're verifying your payment. Save your Order ID — for now, reach out to Support with it if you need a status update.</p>
+        <div class="status-card">
+          <div class="row"><span class="k">Order ID</span><span class="v">${esc(order.order_id)}</span></div>
+          <div class="row"><span class="k">Plan</span><span class="v">${esc(order.plan_name)}</span></div>
+          <div class="row"><span class="k">Amount</span><span class="v">${inr(order.amount)}</span></div>
+          <div class="row"><span class="k">Status</span><span class="v"><span class="status-badge pending"><span class="dot"></span>Verification Pending</span></span></div>
+        </div>
+        <div class="msgbox">Your payment details have been submitted successfully. Your membership will be activated after manual verification, and we'll reach out on WhatsApp once it's approved.</div>
+        <span class="btn btn-outline" onclick="go('#/support')">Contact Support</span>
+      </div>
+    </div></div>
+    ${footerHTML()}
+  `;
+}
+function iconCircle(tone, svg){
+  const bg = tone==='green' ? 'var(--green-bg)' : tone==='red' ? 'var(--red-bg)' : tone==='amber' ? 'var(--amber-bg)' : 'rgba(136,144,166,0.14)';
+  const fg = tone==='green' ? 'var(--green-500)' : tone==='red' ? 'var(--red-500)' : tone==='amber' ? 'var(--amber-500)' : 'var(--ink-500)';
+  return `<div class="status-icon" style="background:${bg};color:${fg};border-radius:50%;display:flex;align-items:center;justify-content:center;padding:14px;">${svg}</div>`;
+}
+
+/* ---------------- SUPPORT ---------------- */
+async function renderSupport(){
+  const settings = await DB.getSettings();
+  const waLink = 'https://wa.me/' + settings.whatsapp_support.replace(/\D/g,'');
+  document.getElementById('app').innerHTML = `
+    ${topNav()}
+    <div class="formpage">
+      <div class="wrap formcol">
+        <div class="back-link" onclick="go('')">&larr; Back to home</div>
+        <div class="form-card fade-in" style="text-align:center;">
+          <h2>Need Help?</h2>
+          <div class="sub">For payment or membership support, reach out any time.</div>
+          <span class="btn btn-gold btn-block" onclick="window.open('${esc(waLink)}','_blank')">
+            ${ICON.wa.replace('<svg ', '<svg style="width:16px;height:16px;margin-right:2px;vertical-align:-3px;" ')} Message Us on WhatsApp
+          </span>
+          <p class="dim" style="font-size:13px;margin-top:16px;">${esc(settings.whatsapp_support)}</p>
+        </div>
+      </div>
+    </div>
+    ${footerHTML()}
+  `;
+}
+
+/* ---------------- LEGAL ---------------- */
+const LEGAL_CONTENT = {
+  terms: {title:'Terms &amp; Conditions', body:`
+    <p>By purchasing a Charts Library membership, you agree to these terms. Membership grants access to research content shared through our Premium WhatsApp Channel for the duration of your selected plan.</p>
+    <p>Membership is activated only after manual verification of your payment. Charts Library reserves the right to decline or cancel a membership where payment cannot be verified.</p>
+    <p>Content shared is for informational and educational purposes only and does not constitute investment advice or a recommendation to buy or sell any security.</p>`},
+  privacy: {title:'Privacy Policy', body:`
+    <p>We collect the name, mobile number, and email you provide at checkout, along with payment reference details, to activate and manage your membership.</p>
+    <p>Payment screenshots are used solely to verify your payment and are stored privately, accessible only to authorised administrators.</p>
+    <p>We do not sell your information. Data is retained for as long as needed to provide the service and meet legal obligations.</p>`},
+  disclaimer: {title:'Disclaimer', body:`
+    <p>Charts Library is a research and education community. Nothing published or shared is investment advice, a recommendation, or a solicitation to buy or sell any security.</p>
+    <p>Any illustrative figures (for example, wealth-growth examples) are hypothetical and do not represent guaranteed or promised returns. Investing in securities markets is subject to market risk. Please read all related documents carefully and consult a qualified financial advisor before making investment decisions.</p>`},
+  refund: {title:'Refund &amp; Cancellation Policy', body:`
+    <p>Membership fees are generally non-refundable once a membership has been activated, except where required by law.</p>
+    <p>If your payment could not be verified and your membership was not activated, please contact support with your Order ID to resolve the issue or request a refund of the unverified payment.</p>`},
+};
+async function renderLegal(slug){
+  const content = LEGAL_CONTENT[slug] || LEGAL_CONTENT.terms;
+  document.getElementById('app').innerHTML = `
+    ${topNav()}
+    <div class="legal-body">
+      <div class="wrap">
+        <div class="back-link" onclick="go('')">&larr; Back to home</div>
+        <h1>${content.title}</h1>
+        ${content.body}
+      </div>
+    </div>
+    ${footerHTML()}
+  `;
+}
+
+/* =========================================================================
+   ADMIN
+   ========================================================================= */
+async function renderAdminGate(){
+  const session = await getSession();
+  if(session){ ADMIN_EMAIL = session.user.email; go('#/admin/dashboard'); return; }
+  document.getElementById('app').innerHTML = `
+    <div class="login-shell">
+      <div class="login-card fade-in">
+        <div style="display:flex;justify-content:center;margin-bottom:16px;">${brandGlyph()}</div>
+        <h2 class="serif" style="font-size:20px;margin:0 0 6px;">Charts Library Admin</h2>
+        <p class="dim" style="font-size:13px;margin:0 0 24px;">Sign in to manage members and payments.</p>
+        <form id="adminLoginForm">
+          <div class="field" style="text-align:left;">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@chartslibrary.com" autofocus />
+          </div>
+          <div class="field" id="f-pass" style="text-align:left;">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter password" />
+            <div class="err">Incorrect email or password. Please try again.</div>
+          </div>
+          <button type="submit" class="btn btn-gold btn-block" id="loginBtn">Sign In</button>
+        </form>
+        <div style="margin-top:14px;"><span class="link-btn" onclick="go('')">&larr; Back to site</span></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('adminLoginForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const f = e.target;
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true; btn.textContent = 'Signing in…';
+    const res = await adminSignIn(f.email.value.trim(), f.password.value);
+    if(res.ok){
+      go('#/admin/dashboard');
+    }else{
+      toggleFieldError('f-pass', true);
+      btn.disabled = false; btn.textContent = 'Sign In';
+    }
+  });
+}
+
+const ADMIN_NAV = [
+  ['dashboard','Dashboard'], ['requests','Payment Requests'], ['members','Members'],
+  ['expiring','Expiring Soon'], ['plans','Plans'], ['settings','Settings'], ['audit','Audit Logs'],
+];
+function adminShell(activeKey, bodyHTML){
+  return `
+  <div class="admin-shell">
+    <div class="admin-sidebar">
+      <div class="brand"><div class="name">Charts Library</div><div class="tag">Admin Panel${ADMIN_EMAIL ? ' · '+esc(ADMIN_EMAIL) : ''}</div></div>
+      <div class="admin-nav">
+        ${ADMIN_NAV.map(([k,label])=>`<a class="${k===activeKey?'active':''}" onclick="go('#/admin/${k}')">${label}</a>`).join('')}
+        <div class="divider"></div>
+        <a onclick="adminLogoutFlow()">Log Out</a>
+        <a onclick="go('')" style="opacity:0.6">View Site</a>
+      </div>
+    </div>
+    <div class="admin-main">${bodyHTML}</div>
+  </div>`;
+}
+async function adminLogoutFlow(){ await adminSignOut(); go('#/admin'); }
+async function requireAdmin(){
+  const session = await getSession();
+  if(!session){ go('#/admin'); return false; }
+  ADMIN_EMAIL = session.user.email;
+  return true;
+}
+
+async function renderAdminDashboard(){
+  if(!(await requireAdmin())) return;
+  const orders = (await DB.listOrders()).map(deriveMembershipView);
+  const today = new Date().toISOString().slice(0,10);
+  const total = orders.length;
+  const active = orders.filter(o=>o.membership_status==='ACTIVE').length;
+  const pending = orders.filter(o=>o.payment_status==='PENDING').length;
+  const expiringSoon = orders.filter(o=>o.membership_status==='ACTIVE' && o.expiry_date && daysUntil(o.expiry_date)<=30 && daysUntil(o.expiry_date)>=0).length;
+  const expired = orders.filter(o=>o.membership_status==='EXPIRED').length;
+  const revenue = orders.filter(o=>o.payment_status==='APPROVED').reduce((s,o)=>s+Number(o.amount||0),0);
+  const todayNew = orders.filter(o=>(o.created_at||'').slice(0,10)===today).length;
+  const todayApproved = orders.filter(o=>o.approved_at && o.approved_at.slice(0,10)===today).length;
+  const recentPending = orders.filter(o=>o.payment_status==='PENDING').slice(0,6);
+
+  const body = `
+    <div class="admin-topbar"><h1>Dashboard</h1></div>
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="label">TOTAL MEMBERS</div><div class="value">${total}</div></div>
+      <div class="kpi-card"><div class="label">ACTIVE</div><div class="value">${active}</div></div>
+      <div class="kpi-card"><div class="label">PENDING REQUESTS</div><div class="value">${pending}</div></div>
+      <div class="kpi-card"><div class="label">EXPIRING SOON</div><div class="value">${expiringSoon}</div></div>
+      <div class="kpi-card"><div class="label">EXPIRED</div><div class="value">${expired}</div></div>
+      <div class="kpi-card"><div class="label">REVENUE (VERIFIED)</div><div class="value">${inr(revenue)}</div></div>
+      <div class="kpi-card"><div class="label">TODAY — NEW REQUESTS</div><div class="value">${todayNew}</div></div>
+      <div class="kpi-card"><div class="label">TODAY — APPROVED</div><div class="value">${todayApproved}</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Recent Payment Requests</h3><span class="link-btn" onclick="go('#/admin/requests')">View all &rarr;</span></div>
+      <div class="tbl-wrap"><table class="admtbl">
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          ${recentPending.length ? recentPending.map(o=>`
+            <tr><td>${esc(o.order_id)}</td><td>${esc(o.name)}</td><td>${esc(o.plan_name)}</td><td>${inr(o.amount)}</td><td>${fmtDateTime(o.created_at)}</td><td>${statusBadge(o)}</td><td><span class="link-btn" onclick="openRequestModal('${o.order_id}')">Review</span></td></tr>`).join('')
+            : `<tr class="empty-row"><td colspan="7">No pending requests — you're all caught up.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = adminShell('dashboard', body);
+}
+function statusBadge(o){
+  if(o.payment_status==='PENDING') return `<span class="status-badge pending"><span class="dot"></span>Pending</span>`;
+  if(o.payment_status==='REJECTED') return `<span class="status-badge rejected"><span class="dot"></span>Rejected</span>`;
+  if(o.membership_status==='ACTIVE') return `<span class="status-badge active"><span class="dot"></span>Active</span>`;
+  if(o.membership_status==='EXPIRED') return `<span class="status-badge expired"><span class="dot"></span>Expired</span>`;
+  if(o.membership_status==='CANCELLED') return `<span class="status-badge cancelled"><span class="dot"></span>Cancelled</span>`;
+  return `<span class="status-badge pending"><span class="dot"></span>${esc(o.membership_status||'—')}</span>`;
+}
+
+async function renderAdminRequests(){
+  if(!(await requireAdmin())) return;
+  const orders = await DB.listOrders();
+  const pending = orders.filter(o=>o.payment_status==='PENDING');
+  const decided = orders.filter(o=>o.payment_status!=='PENDING').slice(0,20);
+  const body = `
+    <div class="admin-topbar"><h1>Payment Verification</h1></div>
+    <div class="panel">
+      <div class="panel-head"><h3>Pending (${pending.length})</h3></div>
+      <div class="tbl-wrap"><table class="admtbl">
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Mobile</th><th>Plan</th><th>Amount</th><th>UTR</th><th>Payment Date</th><th>Submitted</th><th></th></tr></thead>
+        <tbody>
+          ${pending.length ? pending.map(o=>`
+            <tr><td>${esc(o.order_id)}</td><td>${esc(o.name)}</td><td>${esc(o.mobile)}</td><td>${esc(o.plan_name)}</td><td>${inr(o.amount)}</td><td>${esc(o.utr)}</td><td>${fmtDate(o.payment_date)}</td><td>${fmtDateTime(o.created_at)}</td><td><span class="link-btn" onclick="openRequestModal('${o.order_id}')">Review</span></td></tr>`).join('')
+            : `<tr class="empty-row"><td colspan="9">No pending requests.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Recently Decided</h3></div>
+      <div class="tbl-wrap"><table class="admtbl">
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          ${decided.length ? decided.map(o=>`
+            <tr><td>${esc(o.order_id)}</td><td>${esc(o.name)}</td><td>${esc(o.plan_name)}</td><td>${inr(o.amount)}</td><td>${statusBadge(o)}</td><td><span class="link-btn" onclick="openRequestModal('${o.order_id}')">View</span></td></tr>`).join('')
+            : `<tr class="empty-row"><td colspan="6">Nothing decided yet.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = adminShell('requests', body);
+}
+
+async function openRequestModal(orderId){
+  const o = await DB.getOrder(orderId);
+  if(!o) return;
+  const shotUrl = await DB.getScreenshotSignedUrl(o.screenshot_path);
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'reqModalOverlay';
+  const canDecide = o.payment_status === 'PENDING';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h3>Payment Request — ${esc(o.order_id)}</h3>
+      <div class="row"><span class="k">Customer</span><span class="v">${esc(o.name)}</span></div>
+      <div class="row"><span class="k">Mobile</span><span class="v">${esc(o.mobile)}</span></div>
+      <div class="row"><span class="k">Email</span><span class="v">${esc(o.email||'—')}</span></div>
+      <div class="row"><span class="k">Plan</span><span class="v">${esc(o.plan_name)}</span></div>
+      <div class="row"><span class="k">Amount</span><span class="v">${inr(o.amount)}</span></div>
+      <div class="row"><span class="k">UTR</span><span class="v">${esc(o.utr)}</span></div>
+      <div class="row"><span class="k">Payment Date</span><span class="v">${fmtDate(o.payment_date)}</span></div>
+      <div class="row"><span class="k">Submitted</span><span class="v">${fmtDateTime(o.created_at)}</span></div>
+      <div class="row"><span class="k">Status</span><span class="v">${statusBadge(o)}</span></div>
+      ${shotUrl ? `<img class="ss" src="${shotUrl}" alt="Payment screenshot" />` : '<p class="dim" style="font-size:13px;">No screenshot on file.</p>'}
+      ${canDecide ? `
+        <div id="confirmArea"></div>
+        <div class="modal-actions">
+          <button class="btn btn-outline btn-block" onclick="closeModal()">Close</button>
+          <button class="btn btn-danger btn-block" onclick="askReject('${esc(o.order_id)}')">Reject</button>
+          <button class="btn btn-gold btn-block" onclick="askApprove('${esc(o.order_id)}')">Approve</button>
+        </div>` : `<div class="modal-actions"><button class="btn btn-outline btn-block" onclick="closeModal()">Close</button></div>`}
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+}
+function closeModal(){ const m = document.getElementById('reqModalOverlay'); if(m) m.remove(); }
+function askApprove(orderId){
+  const area = document.getElementById('confirmArea'); if(!area) return;
+  area.innerHTML = `
+    <div class="disclaimer-box" style="margin-top:16px;">
+      <strong>Confirm payment approval?</strong><br>This will activate the customer's membership.
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-block" onclick="document.getElementById('confirmArea').innerHTML=''">Cancel</button>
+        <button class="btn btn-gold btn-block" onclick="doApprove('${orderId}')">Approve Membership</button>
+      </div>
+    </div>`;
+}
+function askReject(orderId){
+  const area = document.getElementById('confirmArea'); if(!area) return;
+  area.innerHTML = `
+    <div class="disclaimer-box" style="margin-top:16px;">
+      <strong>Reject this payment?</strong>
+      <div class="field" style="margin-top:12px;text-align:left;">
+        <label>Internal reason (optional)</label>
+        <input type="text" id="rejectReasonInput" placeholder="e.g. UTR does not match received payment" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline btn-block" onclick="document.getElementById('confirmArea').innerHTML=''">Cancel</button>
+        <button class="btn btn-danger btn-block" onclick="doReject('${orderId}')">Confirm Reject</button>
+      </div>
+    </div>`;
+}
+async function doApprove(orderId){
+  const o = await DB.getOrder(orderId);
+  if(!o || o.payment_status !== 'PENDING'){ toast('This request has already been decided.'); closeModal(); return; }
+  const startDate = nowISO();
+  const expiryDate = addMonthsClamped(startDate, o.duration_months);
+  await DB.updateOrder(orderId, {
+    payment_status:'APPROVED', membership_status:'ACTIVE',
+    start_date: startDate, expiry_date: expiryDate,
+    approved_at: nowISO(), approved_by: ADMIN_EMAIL || 'Admin',
+    whatsapp_access_status: 'GRANTED',
+  });
+  await DB.addAudit('APPROVE_PAYMENT', orderId, `${o.name} · ${o.plan_name} · ${inr(o.amount)}`);
+  closeModal(); toast('Membership successfully activated.'); render();
+}
+async function doReject(orderId){
+  const o = await DB.getOrder(orderId);
+  if(!o || o.payment_status !== 'PENDING'){ toast('This request has already been decided.'); closeModal(); return; }
+  const reasonEl = document.getElementById('rejectReasonInput');
+  const reason = reasonEl ? reasonEl.value.trim() : '';
+  await DB.updateOrder(orderId, { payment_status:'REJECTED', membership_status:'REJECTED', rejection_reason: reason || 'Payment could not be verified.' });
+  await DB.addAudit('REJECT_PAYMENT', orderId, reason || '(no reason given)');
+  closeModal(); toast('Payment marked as rejected.'); render();
+}
+
+let __memberFilter = 'ALL';
+let __memberSearch = '';
+async function renderAdminMembers(){
+  if(!(await requireAdmin())) return;
+  let orders = (await DB.listOrders()).map(deriveMembershipView);
+  if(__memberSearch){
+    const q = __memberSearch.toLowerCase();
+    orders = orders.filter(o => (o.name||'').toLowerCase().includes(q) || (o.mobile||'').includes(q) || (o.order_id||'').toLowerCase().includes(q));
+  }
+  if(__memberFilter !== 'ALL'){
+    orders = orders.filter(o=>{
+      if(__memberFilter==='ACTIVE') return o.membership_status==='ACTIVE';
+      if(__memberFilter==='EXPIRED') return o.membership_status==='EXPIRED';
+      if(__memberFilter==='PENDING') return o.payment_status==='PENDING';
+      if(__memberFilter==='REJECTED') return o.payment_status==='REJECTED';
+      if(__memberFilter==='CANCELLED') return o.membership_status==='CANCELLED';
+      return true;
+    });
+  }
+  const body = `
+    <div class="admin-topbar">
+      <h1>Members</h1>
+      <input class="search-input" placeholder="Search name, mobile, order ID" value="${esc(__memberSearch)}" oninput="onMemberSearch(this.value)" />
+    </div>
+    <div class="chip-filters" style="margin-bottom:20px;">
+      ${['ALL','ACTIVE','PENDING','EXPIRED','REJECTED','CANCELLED'].map(f=>`<span class="chip ${__memberFilter===f?'active':''}" onclick="setMemberFilter('${f}')">${f[0]+f.slice(1).toLowerCase()}</span>`).join('')}
+    </div>
+    <div class="panel">
+      <div class="tbl-wrap"><table class="admtbl">
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Mobile</th><th>Plan</th><th>Amount</th><th>Expiry</th><th>Status</th><th>WhatsApp</th><th></th></tr></thead>
+        <tbody>
+          ${orders.length ? orders.map(o=>`
+            <tr><td>${esc(o.order_id)}</td><td>${esc(o.name)}</td><td>${esc(o.mobile)}</td><td>${esc(o.plan_name)}</td><td>${inr(o.amount)}</td><td>${o.expiry_date ? fmtDate(o.expiry_date) : '—'}</td><td>${statusBadge(o)}</td><td>${o.whatsapp_access_status==='GRANTED' ? '✓ Granted' : '—'}</td><td><span class="link-btn" onclick="openMemberModal('${o.order_id}')">Manage</span></td></tr>`).join('')
+            : `<tr class="empty-row"><td colspan="9">No members match this view.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = adminShell('members', body);
+}
+function onMemberSearch(v){ __memberSearch = v; renderAdminMembers(); }
+function setMemberFilter(f){ __memberFilter = f; renderAdminMembers(); }
+
+async function openMemberModal(orderId){
+  const o = await DB.getOrder(orderId);
+  if(!o) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'reqModalOverlay';
+  overlay.innerHTML = `
+    <div class="modal">
+      <h3>${esc(o.name)} — ${esc(o.order_id)}</h3>
+      <div class="row"><span class="k">Mobile</span><span class="v">${esc(o.mobile)}</span></div>
+      <div class="row"><span class="k">Email</span><span class="v">${esc(o.email||'—')}</span></div>
+      <div class="row"><span class="k">Plan</span><span class="v">${esc(o.plan_name)}</span></div>
+      <div class="row"><span class="k">Amount Paid</span><span class="v">${inr(o.amount)}</span></div>
+      <div class="row"><span class="k">Start Date</span><span class="v">${fmtDate(o.start_date)}</span></div>
+      <div class="row"><span class="k">Expiry Date</span><span class="v">${fmtDate(o.expiry_date)}</span></div>
+      <div class="row"><span class="k">Status</span><span class="v">${statusBadge(deriveMembershipView(o))}</span></div>
+      <div class="row"><span class="k">WhatsApp Access</span><span class="v">${esc(o.whatsapp_access_status)}</span></div>
+      ${o.notes && o.notes.length ? `<div style="margin-top:14px;"><div style="font-size:12px;color:var(--ink-500);margin-bottom:6px;">Internal Notes</div>${o.notes.map(n=>`<div class="dim" style="font-size:12.5px;padding:4px 0;border-top:1px solid var(--hairline);">${esc(n)}</div>`).join('')}</div>` : ''}
+      <div class="field" style="margin-top:18px;text-align:left;">
+        <label>New expiry date (extend / adjust)</label>
+        <input type="date" id="newExpiryInput" value="${o.expiry_date ? o.expiry_date.slice(0,10) : ''}" />
+      </div>
+      <div class="field" style="text-align:left;">
+        <label>Add internal note</label>
+        <input type="text" id="noteInput" placeholder="e.g. Customer requested renewal reminder" />
+      </div>
+      <div class="modal-actions" style="flex-wrap:wrap;">
+        <button class="btn btn-outline btn-sm" onclick="saveExpiryChange('${o.order_id}')">Save Expiry</button>
+        <button class="btn btn-outline btn-sm" onclick="saveNote('${o.order_id}')">Add Note</button>
+        ${o.membership_status==='ACTIVE' ? `<button class="btn btn-danger btn-sm" onclick="cancelMembership('${o.order_id}')">Cancel Membership</button>` : ''}
+        <button class="btn btn-gold btn-sm" onclick="resendAccess('${o.order_id}')">Resend Access Instructions</button>
+      </div>
+      <div class="modal-actions"><button class="btn btn-outline btn-block" onclick="closeModal()">Close</button></div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e)=>{ if(e.target===overlay) closeModal(); });
+}
+async function saveExpiryChange(orderId){
+  const val = document.getElementById('newExpiryInput').value;
+  if(!val) return;
+  const iso = new Date(val+'T00:00:00').toISOString();
+  await DB.updateOrder(orderId, {expiry_date: iso, membership_status: daysUntil(iso)>=0 ? 'ACTIVE' : 'EXPIRED'});
+  await DB.addAudit('EXTEND_MEMBERSHIP', orderId, 'New expiry: '+fmtDate(iso));
+  toast('Expiry date updated.'); closeModal(); renderAdminMembers();
+}
+async function saveNote(orderId){
+  const val = document.getElementById('noteInput').value.trim();
+  if(!val) return;
+  const o = await DB.getOrder(orderId);
+  const notes = (o.notes||[]).concat([fmtDateTime(nowISO())+' — '+val]);
+  await DB.updateOrder(orderId, {notes});
+  await DB.addAudit('ADD_NOTE', orderId, val);
+  toast('Note added.'); closeModal(); openMemberModal(orderId);
+}
+async function cancelMembership(orderId){
+  await DB.updateOrder(orderId, {membership_status:'CANCELLED'});
+  await DB.addAudit('CANCEL_MEMBERSHIP', orderId, '');
+  toast('Membership cancelled.'); closeModal(); renderAdminMembers();
+}
+async function resendAccess(orderId){
+  await DB.addAudit('RESEND_ACCESS', orderId, '');
+  toast('Access instructions marked as resent.');
+}
+
+let __expiringWindow = 30;
+async function renderAdminExpiring(){
+  if(!(await requireAdmin())) return;
+  const orders = (await DB.listOrders()).map(deriveMembershipView).filter(o=>o.membership_status==='ACTIVE' && o.expiry_date);
+  const filtered = orders.filter(o=>{ const d = daysUntil(o.expiry_date); return d>=0 && d<=__expiringWindow; }).sort((a,b)=>daysUntil(a.expiry_date)-daysUntil(b.expiry_date));
+  const body = `
+    <div class="admin-topbar"><h1>Expiring Soon</h1></div>
+    <div class="chip-filters" style="margin-bottom:20px;">
+      ${[7,15,30].map(n=>`<span class="chip ${__expiringWindow===n?'active':''}" onclick="setExpiringWindow(${n})">Within ${n} days</span>`).join('')}
+    </div>
+    <div class="panel">
+      <div class="tbl-wrap"><table class="admtbl">
+        <thead><tr><th>Customer</th><th>Order ID</th><th>Plan</th><th>Expiry Date</th><th>Days Remaining</th><th>WhatsApp Access</th><th></th></tr></thead>
+        <tbody>
+          ${filtered.length ? filtered.map(o=>`
+            <tr><td>${esc(o.name)}</td><td>${esc(o.order_id)}</td><td>${esc(o.plan_name)}</td><td>${fmtDate(o.expiry_date)}</td><td>${daysUntil(o.expiry_date)}</td><td>${o.whatsapp_access_status==='GRANTED' ? '✓ Granted' : '—'}</td><td><span class="link-btn" onclick="openMemberModal('${o.order_id}')">Manage</span></td></tr>`).join('')
+            : `<tr class="empty-row"><td colspan="7">No memberships expiring in this window.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = adminShell('expiring', body);
+}
+function setExpiringWindow(n){ __expiringWindow = n; renderAdminExpiring(); }
+
+async function renderAdminPlans(){
+  if(!(await requireAdmin())) return;
+  const plans = (await DB.getPlans()).sort((a,b)=>a.display_order-b.display_order);
+  const orders = await DB.listOrders();
+  const usedPlanIds = new Set(orders.map(o=>o.plan_id));
+  const body = `
+    <div class="admin-topbar"><h1>Plans</h1></div>
+    <div class="panel">
+      <div class="tbl-wrap"><table class="admtbl">
+        <thead><tr><th>Order</th><th>Name</th><th>Duration</th><th>Price</th><th>Badge</th><th>Active</th><th></th></tr></thead>
+        <tbody>
+          ${plans.map(p=>`
+            <tr>
+              <td>${p.display_order}</td>
+              <td><input class="search-input" style="min-width:120px" value="${esc(p.name)}" onchange="updatePlanFieldUI('${p.id}','name',this.value)" /></td>
+              <td>${p.duration_months} mo</td>
+              <td><input class="search-input" style="min-width:100px" type="number" min="0" value="${p.price}" onchange="updatePlanFieldUI('${p.id}','price',Number(this.value))" /></td>
+              <td>
+                <select class="search-input" onchange="updatePlanFieldUI('${p.id}','badge',this.value)">
+                  <option value="" ${p.badge===''?'selected':''}>None</option>
+                  <option value="POPULAR" ${p.badge==='POPULAR'?'selected':''}>POPULAR</option>
+                  <option value="BEST VALUE" ${p.badge==='BEST VALUE'?'selected':''}>BEST VALUE</option>
+                </select>
+              </td>
+              <td><label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" ${p.active?'checked':''} onchange="updatePlanFieldUI('${p.id}','active',this.checked)" /></label></td>
+              <td>${usedPlanIds.has(p.id) ? '<span class="dim" style="font-size:12px;">In use — deactivate only</span>' : `<span class="link-btn" onclick="deletePlanUI('${p.id}')">Delete</span>`}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table></div>
+    </div>
+    <p class="dim" style="font-size:12.5px;">Plans with existing memberships can't be deleted — deactivate them instead so pricing stays consistent for existing members.</p>
+  `;
+  document.getElementById('app').innerHTML = adminShell('plans', body);
+}
+async function updatePlanFieldUI(planId, field, value){
+  const ok = await DB.updatePlanField(planId, field, value);
+  if(ok){ await DB.addAudit('UPDATE_PLAN', planId, field+' = '+value); toast('Plan updated.'); }
+  else toast('Could not update plan.');
+}
+async function deletePlanUI(planId){
+  const orders = await DB.listOrders();
+  if(orders.some(o=>o.plan_id===planId)){ toast('This plan has existing memberships — deactivate instead.'); return; }
+  const ok = await DB.deletePlan(planId);
+  if(ok){ await DB.addAudit('DELETE_PLAN', planId, ''); toast('Plan deleted.'); renderAdminPlans(); }
+  else toast('Could not delete plan.');
+}
+
+async function renderAdminSettings(){
+  if(!(await requireAdmin())) return;
+  const s = await DB.getSettings();
+  const body = `
+    <div class="admin-topbar"><h1>Settings</h1></div>
+    <div class="panel" style="padding:24px 26px;">
+      <form id="settingsForm">
+        <div class="field"><label>Brand Name</label><input name="brand_name" value="${esc(s.brand_name)}" /></div>
+        <div class="field"><label>UPI ID</label><input name="upi_id" value="${esc(s.upi_id)}" /></div>
+        <div class="field"><label>UPI Payment Note</label><input name="upi_note" value="${esc(s.upi_note)}" /></div>
+        <div class="field"><label>Support WhatsApp Number (with country code)</label><input name="whatsapp_support" value="${esc(s.whatsapp_support)}" /></div>
+        <div class="field"><label>Premium WhatsApp Channel Name</label><input name="whatsapp_channel_name" value="${esc(s.whatsapp_channel_name)}" /></div>
+        <div class="field"><label>Premium WhatsApp Channel Link</label><input name="whatsapp_channel_link" value="${esc(s.whatsapp_channel_link)}" /></div>
+        <div class="field"><label>Access Instructions</label><textarea name="whatsapp_instructions" rows="3">${esc(s.whatsapp_instructions)}</textarea></div>
+        <button type="submit" class="btn btn-gold">Save Settings</button>
+      </form>
+      <p class="dim" style="font-size:12px;margin-top:16px;">Admin login is now managed in Supabase (Authentication → Users) — add or remove admins there.</p>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = adminShell('settings', body);
+  document.getElementById('settingsForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const f = e.target;
+    const updated = {
+      brand_name: f.brand_name.value, upi_id: f.upi_id.value, upi_note: f.upi_note.value,
+      whatsapp_support: f.whatsapp_support.value, whatsapp_channel_name: f.whatsapp_channel_name.value,
+      whatsapp_channel_link: f.whatsapp_channel_link.value, whatsapp_instructions: f.whatsapp_instructions.value,
+    };
+    const ok = await DB.saveSettings(updated);
+    if(ok){ await DB.addAudit('UPDATE_SETTINGS', 'settings', ''); toast('Settings saved.'); }
+    else toast('Could not save settings.');
+  });
+}
+
+async function renderAdminAudit(){
+  if(!(await requireAdmin())) return;
+  const logs = await DB.listAudit();
+  const body = `
+    <div class="admin-topbar"><h1>Audit Logs</h1></div>
+    <div class="panel">
+      <div class="tbl-wrap"><table class="admtbl">
+        <thead><tr><th>Time</th><th>Admin</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead>
+        <tbody>
+          ${logs.length ? logs.map(l=>`
+            <tr><td>${fmtDateTime(l.created_at)}</td><td>${esc(l.admin_email||'—')}</td><td>${esc(l.action)}</td><td>${esc(l.target)}</td><td class="dim">${esc(l.meta)}</td></tr>`).join('')
+            : `<tr class="empty-row"><td colspan="5">No admin actions logged yet.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>
+  `;
+  document.getElementById('app').innerHTML = adminShell('audit', body);
+}
+
+/* =========================================================================
+   MAIN RENDER DISPATCH
+   ========================================================================= */
+async function render(){
+  const {name, params} = ROUTE;
+  try{
+    if(name==='home' || name==='') return renderHome();
+    if(name==='plans') return renderPlansPage();
+    if(name==='join') return renderJoin(params[0]);
+    if(name==='payment') return renderPaymentPage(params[0]);
+    if(name==='submit-payment') return renderSubmitPayment(params[0]);
+    if(name==='submitted') return renderSubmitted(params[0]);
+    if(name==='support') return renderSupport();
+    if(name==='legal') return renderLegal(params[0]);
+    if(name==='admin'){
+      const sub = params[0];
+      if(!sub) return renderAdminGate();
+      if(sub==='dashboard') return renderAdminDashboard();
+      if(sub==='requests') return renderAdminRequests();
+      if(sub==='members') return renderAdminMembers();
+      if(sub==='expiring') return renderAdminExpiring();
+      if(sub==='plans') return renderAdminPlans();
+      if(sub==='settings') return renderAdminSettings();
+      if(sub==='audit') return renderAdminAudit();
+      return renderAdminGate();
+    }
+    return renderHome();
+  }catch(err){
+    console.error(err);
+    document.getElementById('app').innerHTML = `${topNav()}<div class="formpage"><div class="wrap"><div class="status-page"><h1>Something went wrong</h1><p class="sub">Please try again.</p><span class="btn btn-outline" onclick="go('')">Back to home</span></div></div></div>`;
+  }
+}
+
+/* ---------------- init ---------------- */
+(function init(){
+  ROUTE = parseHash();
+  render();
+})();
+</script>
+</body>
+</html>
